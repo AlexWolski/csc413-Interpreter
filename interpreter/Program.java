@@ -13,12 +13,16 @@ public class Program {
         program = new ArrayList<>();
     }
 
-    protected ByteCode getCode(int pc) {
+    public int getSize() {
+        return this.program.size();
+    }
+
+    public ByteCode getCode(int pc) {
         return this.program.get(pc);
     }
 
-    public int getSize() {
-        return this.program.size();
+    public void addCode(ByteCode newByteCode) {
+        program.add(newByteCode);
     }
 
     /**
@@ -30,10 +34,5 @@ public class Program {
      * @ param program Program object that holds a list of ByteCodes
      */
     public void resolveAddrs() {
-
     }
-
-
-
-
 }
