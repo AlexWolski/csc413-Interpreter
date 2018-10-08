@@ -1,9 +1,14 @@
 package interpreter.bytecode;
 
+import interpreter.VirtualMachine;
+
 public class LoadCode extends ByteCode {
-    int index;
+    private int index;
 
     public void init(String ... parameters) {
+        if(parameters.length < 1)
+            throw new NumberFormatException("Invalid Syntax: LOAD takes 1 argument.");
+
         try {
             index = ByteCode.toInt(parameters[0]);
         } catch (NumberFormatException e) {
@@ -11,6 +16,6 @@ public class LoadCode extends ByteCode {
         }
     }
 
-    public void execute() {
+    public void execute(VirtualMachine vm) {
     }
 }

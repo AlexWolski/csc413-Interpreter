@@ -1,19 +1,23 @@
 package interpreter.bytecode;
 
 import com.sun.corba.se.impl.io.TypeMismatchException;
+import interpreter.VirtualMachine;
 
 public class DumpCode extends ByteCode {
-    boolean dumpCode;
+    private boolean dumpCode;
 
     public void init(String ... parameters) {
-        if(parameters[0].equals("ON"))
+        if(parameters.length < 1)
+            throw new NumberFormatException("Invalid Syntax: DUMP takes 1 argument.");
+
+        if (parameters[0].equals("ON"))
             dumpCode = true;
-        else if(parameters[0].equals("OFF"))
+        else if (parameters[0].equals("OFF"))
             dumpCode = false;
         else
-            throw new TypeMismatchException("Invalid Syntax: DUMP only takes \"ON\" or \"OFF\".");
+            throw new TypeMismatchException("Invalid Syntax: DUMP takes \"ON\" or \"OFF\".");
     }
 
-    public void execute() {
+    public void execute(VirtualMachine vm) {
     }
 }

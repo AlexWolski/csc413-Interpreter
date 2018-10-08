@@ -1,9 +1,8 @@
 package interpreter.bytecode;
 
-public class ReadCode extends ByteCode {
-    public void init(String ... parameters) {
-    }
+import interpreter.VirtualMachine;
 
-    public void execute() {
+public class ReadCode extends ByteCode {
+    public void execute(VirtualMachine vm) {
     }
 }

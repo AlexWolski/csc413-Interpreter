@@ -1,9 +1,14 @@
 package interpreter.bytecode;
 
+import interpreter.VirtualMachine;
+
 public class ArgsCode extends ByteCode {
-    int numArgs;
+    private int numArgs;
 
     public void init(String ... parameters) {
+        if(parameters.length < 1)
+            throw new NumberFormatException("Invalid Syntax: ARGS takes 1 argument.");
+
         try {
             numArgs = ByteCode.toInt(parameters[0]);
         }
@@ -12,6 +17,6 @@ public class ArgsCode extends ByteCode {
         }
     }
 
-    public void execute() {
+    public void execute(VirtualMachine vm) {
     }
 }
