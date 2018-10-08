@@ -3,7 +3,7 @@ package interpreter.bytecode;
 public class ArgsCode extends ByteCode {
     int numArgs;
 
-    public void init(String[] parameters) {
+    public void init(String ... parameters) {
         try {
             numArgs = ByteCode.toInt(parameters[0]);
         }

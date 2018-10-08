@@ -3,7 +3,7 @@ package interpreter.bytecode;
 public class LitCode extends ByteCode {
     int value;
 
-    public void init(String[] parameters) {
+    public void init(String ... parameters) {
         try {
             value = ByteCode.toInt(parameters[0]);
         } catch (NumberFormatException e) {

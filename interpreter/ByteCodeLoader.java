@@ -1,4 +1,3 @@
-
 package interpreter;
 
 import interpreter.bytecode.ByteCode;
@@ -7,7 +6,6 @@ import interpreter.bytecode.HaltCode;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -57,6 +55,7 @@ public class ByteCodeLoader extends Object {
             }
 
             byteSource.close();
+            xProgram.resolveAddrs();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             xProgram = new Program();

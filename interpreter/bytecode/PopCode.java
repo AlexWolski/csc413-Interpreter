@@ -3,7 +3,7 @@ package interpreter.bytecode;
 public class PopCode extends ByteCode {
     int numToPop;
 
-    public void init(String[] parameters) {
+    public void init(String ... parameters) {
         try {
             numToPop = ByteCode.toInt(parameters[0]);
         } catch (NumberFormatException e) {

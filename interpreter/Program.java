@@ -1,16 +1,20 @@
 package interpreter;
 
 import interpreter.bytecode.ByteCode;
+import interpreter.bytecode.JumpByteCode;
+import interpreter.bytecode.LabelCode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Program {
-
     private ArrayList<ByteCode> program;
+    private HashMap<String, Integer> addresses;
 
     public Program() {
         program = new ArrayList<>();
+        addresses = new HashMap();
     }
 
     public int getSize() {
@@ -23,6 +27,9 @@ public class Program {
 
     public void addCode(ByteCode newByteCode) {
         program.add(newByteCode);
+
+        if (newByteCode instanceof LabelCode)
+            addresses.put(((LabelCode) newByteCode).getLabel(), program.size());
     }
 
     /**
@@ -34,5 +41,9 @@ public class Program {
      * @ param program Program object that holds a list of ByteCodes
      */
     public void resolveAddrs() {
+        for(ByteCode currByteCode : program) {
+            if(currByteCode instanceof JumpByteCode)
+                ((JumpByteCode) currByteCode).setAddress(addresses.get(((JumpByteCode) currByteCode).getLabel()));
+        }
     }
 }

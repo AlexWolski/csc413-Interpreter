@@ -1,12 +1,13 @@
 package interpreter.bytecode;
 
-public class LabelCode extends ByteCode {
+public class LabelCode extends JumpByteCode {
     String label;
 
-    public void init(String[] parameters) {
+    public void init(String ... parameters) {
         label = parameters[0];
     }
 
-    public void execute() {
+    public String getLabel() {
+        return label;
     }
 }
