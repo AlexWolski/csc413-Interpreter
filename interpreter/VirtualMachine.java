@@ -15,7 +15,13 @@ public class VirtualMachine {
     }
 
     void executeProgram() {
+        isRunning = true;
+        runStack = new RunTimeStack();
+        pc = 0;
 
+        while(isRunning) {
+            program.getCode(pc).execute(this);
+            pc++;
+        }
     }
-
 }

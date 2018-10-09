@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 
-public class ByteCodeLoader extends Object {
+class ByteCodeLoader extends Object {
 
     private BufferedReader byteSource;
 
@@ -18,7 +18,7 @@ public class ByteCodeLoader extends Object {
      * YOU ARE NOT ALLOWED TO READ FILE CONTENTS HERE
      * THIS NEEDS TO HAPPEN IN LOADCODES.
      */
-    public ByteCodeLoader(String file) throws IOException {
+    ByteCodeLoader(String file) throws IOException {
         byteSource = new BufferedReader(new FileReader(file));
     }
     /**
@@ -30,28 +30,28 @@ public class ByteCodeLoader extends Object {
      *      Parse any additional arguments for the given ByteCode and send them to
      *      the newly created ByteCode instance via the init function.
      */
-    public Program loadCodes() {
+    Program loadCodes() {
         Program xProgram = new Program();
-        Class c;
-        ByteCode bc;
+        Class byteClass;
+        ByteCode byteObject;
 
         try {
             while (byteSource.ready()) {
-                String test[] = byteSource.readLine().split(" ", -1);
-                c = Class.forName("interpreter.bytecode." + CodeTable.getClassName(test[0]));
+                String parsedString[] = byteSource.readLine().split(" ", -1);
+                byteClass = Class.forName("interpreter.bytecode." + CodeTable.getClassName(parsedString[0]));
 
                 try {
-                    bc = (ByteCode) c.getDeclaredConstructor().newInstance();
+                    byteObject = (ByteCode) byteClass.getDeclaredConstructor().newInstance();
 
-                    if(test.length != 1)
-                        bc.init(Arrays.copyOfRange(test, 1, test.length));
+                    if(parsedString.length != 1)
+                        byteObject.init(Arrays.copyOfRange(parsedString, 1, parsedString.length));
                 } catch (SecurityException e) {
-                    throw new SecurityException(test[0] + " is not a valid bytecode.");
+                    throw new SecurityException(parsedString[0] + " is not a valid bytecode.");
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    throw new ArrayIndexOutOfBoundsException(test[0] + " needs more than " + (test.length - 1) + " arguments.");
+                    throw new ArrayIndexOutOfBoundsException(parsedString[0] + " needs more than " + (parsedString.length - 1) + " arguments.");
                 }
 
-                xProgram.addCode(bc);
+                xProgram.addCode(byteObject);
             }
 
             byteSource.close();

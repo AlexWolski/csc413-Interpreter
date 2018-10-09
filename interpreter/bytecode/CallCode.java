@@ -7,9 +7,6 @@ public class CallCode extends JumpByteCode {
     private int address;
 
     public void init(String ... parameters) {
-        if(parameters.length < 1)
-            throw new NumberFormatException("Invalid Syntax: CALL takes 1 argument.");
-
         label = parameters[0];
     }
 

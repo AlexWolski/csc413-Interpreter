@@ -7,7 +7,7 @@ public abstract class ByteCode {
 
     public void execute(VirtualMachine vm) { }
 
-    protected static int toInt(String numberString) {
+    static int toInt(String numberString) {
         //Exception handled by concrete ByteCode class and ByteCodeLoader
         return Integer.parseInt(numberString);
     }

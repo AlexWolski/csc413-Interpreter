@@ -7,9 +7,6 @@ public class DumpCode extends ByteCode {
     private boolean dumpCode;
 
     public void init(String ... parameters) {
-        if(parameters.length < 1)
-            throw new NumberFormatException("Invalid Syntax: DUMP takes 1 argument.");
-
         if (parameters[0].equals("ON"))
             dumpCode = true;
         else if (parameters[0].equals("OFF"))
