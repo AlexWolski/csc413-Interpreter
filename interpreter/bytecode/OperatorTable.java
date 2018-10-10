@@ -16,7 +16,7 @@ public class OperatorTable {
         operatorTable.put("*", "multiplyOp");
         operatorTable.put("==", "equalsOp");
         operatorTable.put("!=", "notEqualsOp");
-        operatorTable.put("<", "lesOp");
+        operatorTable.put("<", "lessOp");
         operatorTable.put("<=", "lessEqualsOp");
         operatorTable.put(">", "greaterOp");
         operatorTable.put(">=", "greaterEqualsOp");

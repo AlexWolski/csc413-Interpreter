@@ -19,20 +19,27 @@ public class RunTimeStack {
         return runStack.size()-1;
     }
 
+    private int safeFramePeek(String errorMessage) {
+        if(framePointer.size() == 0)
+            throw new ArrayIndexOutOfBoundsException(errorMessage + ", there are no frames.");
+
+        return framePointer.peek();
+    }
+
     public void dump() {
 
     }
 
     public int peek() {
-        if(runStack.size() == 0)
-            throw new ArrayIndexOutOfBoundsException("Can't PEEK, the stack is empty.");
+        if(runStack.size() + 1 == safeFramePeek("Can't PEEK"))
+            throw new ArrayIndexOutOfBoundsException("Can't PEEK, the frame is empty.");
 
         return runStack.get(getLastStackIndex());
     }
 
     public int pop() {
-        if(runStack.size() == 0)
-            throw new ArrayIndexOutOfBoundsException("Can't POP, the stack is empty.");
+        if(runStack.size() + 1 == safeFramePeek("Can't POP"))
+            throw new ArrayIndexOutOfBoundsException("Can't POP, the frame is empty");
 
         Object value = runStack.get(getLastStackIndex());
         runStack.remove(getLastStackIndex());
@@ -51,21 +58,18 @@ public class RunTimeStack {
     }
 
     public void newFrameAt(int offset) {
-        if(runStack.size() < framePointer.peek())
+        if(runStack.size() - offset + 1 < safeFramePeek("Can't add NEW FRAME"))
             throw new ArrayIndexOutOfBoundsException("Can't add NEW FRAME, the target location is out of bounds.");
 
         framePointer.add(runStack.size());
     }
 
     public void popFrame() {
-        if(runStack.size() == framePointer.peek())
-            throw new ArrayIndexOutOfBoundsException("Can't POP FRAME, there is no return value.");
+        if(framePointer.size() == 0)
+            throw new ArrayIndexOutOfBoundsException("Can't POP FRAME, there are no more frames.");
 
-        if(runStack.size() > framePointer.peek())
-            throw new ArrayIndexOutOfBoundsException("Can't POP FRAME, there is more than one return value.");
-
-        Integer returnValue = runStack.get(getLastStackIndex());
         int oldFrame = framePointer.pop();
+        Integer returnValue = runStack.get(getLastStackIndex());
 
         while(runStack.size() > oldFrame)
             runStack.remove(getLastStackIndex());
@@ -74,10 +78,10 @@ public class RunTimeStack {
     }
 
     public int store(int offset) {
-        int index = framePointer.peek() + offset;
+        int index = safeFramePeek("Can't STORE") + offset;
 
         if(index > runStack.size())
-            throw new ArrayIndexOutOfBoundsException("Can't STORE, the target value is outside of the stack.");
+            throw new ArrayIndexOutOfBoundsException("Can't STORE, the target index is outside of the stack.");
 
         Integer value = runStack.get(getLastStackIndex());
         runStack.set(index, value);
@@ -87,12 +91,12 @@ public class RunTimeStack {
     }
 
     public int load(int offset) {
-        int index = framePointer.peek() + offset;
+        int index = safeFramePeek("Can't LOAD") + offset;
 
         if(index > runStack.size())
-            throw new ArrayIndexOutOfBoundsException("Can't LOAD, the target value is outside of the stack.");
+            throw new ArrayIndexOutOfBoundsException("Can't LOAD, the target index is outside of the stack.");
 
-        Integer value = runStack.get(index);
+        Integer value = runStack.get(index - 1);
         runStack.add(value);
 
         return value;

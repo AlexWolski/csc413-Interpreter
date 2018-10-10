@@ -21,7 +21,12 @@ public class VirtualMachine {
         pc = 0;
 
         while(isRunning) {
-            program.getCode(pc).execute(this);
+            try {
+                program.getCode(pc).execute(this);
+            } catch(Exception e) {
+                //Ignore all errors thrown by the runtime stack, don't stop the program
+            }
+
             pc++;
         }
     }
