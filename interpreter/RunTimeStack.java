@@ -51,12 +51,18 @@ public class RunTimeStack {
     }
 
     public void newFrameAt(int offset) {
+        if(runStack.size() < framePointer.peek())
+            throw new ArrayIndexOutOfBoundsException("Can't add NEW FRAME, the target location is out of bounds.");
+
         framePointer.add(runStack.size());
     }
 
     public void popFrame() {
         if(runStack.size() == framePointer.peek())
-            throw new ArrayIndexOutOfBoundsException("Can't POP FRAME, no return value.");
+            throw new ArrayIndexOutOfBoundsException("Can't POP FRAME, there is no return value.");
+
+        if(runStack.size() > framePointer.peek())
+            throw new ArrayIndexOutOfBoundsException("Can't POP FRAME, there is more than one return value.");
 
         Integer returnValue = runStack.get(getLastStackIndex());
         int oldFrame = framePointer.pop();
@@ -71,7 +77,7 @@ public class RunTimeStack {
         int index = framePointer.peek() + offset;
 
         if(index > runStack.size())
-            throw new ArrayIndexOutOfBoundsException("Can't STORE, the offset is outside of the stack.");
+            throw new ArrayIndexOutOfBoundsException("Can't STORE, the target value is outside of the stack.");
 
         Integer value = runStack.get(getLastStackIndex());
         runStack.set(index, value);
@@ -84,7 +90,7 @@ public class RunTimeStack {
         int index = framePointer.peek() + offset;
 
         if(index > runStack.size())
-            throw new ArrayIndexOutOfBoundsException("Can't STORE, the offset is outside of the stack.");
+            throw new ArrayIndexOutOfBoundsException("Can't LOAD, the target value is outside of the stack.");
 
         Integer value = runStack.get(index);
         runStack.add(value);

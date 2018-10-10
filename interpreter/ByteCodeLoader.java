@@ -32,13 +32,12 @@ class ByteCodeLoader extends Object {
      */
     Program loadCodes() {
         Program xProgram = new Program();
-        Class byteClass;
         ByteCode byteObject;
 
         try {
             while (byteSource.ready()) {
                 String parsedString[] = byteSource.readLine().split(" ", -1);
-                byteClass = Class.forName("interpreter.bytecode." + CodeTable.getClassName(parsedString[0]));
+                Class byteClass = Class.forName("interpreter.bytecode." + CodeTable.getClassName(parsedString[0]));
 
                 try {
                     byteObject = (ByteCode) byteClass.getDeclaredConstructor().newInstance();

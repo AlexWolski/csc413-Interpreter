@@ -18,5 +18,6 @@ public class LitCode extends ByteCode {
     }
 
     public void execute(VirtualMachine vm) {
+        vm.push(value);
     }
 }

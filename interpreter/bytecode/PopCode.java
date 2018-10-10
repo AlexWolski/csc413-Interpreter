@@ -14,5 +14,7 @@ public class PopCode extends ByteCode {
     }
 
     public void execute(VirtualMachine vm) {
+        for(int numPoppsed = 0; numPoppsed < numToPop; numPoppsed++)
+            vm.pop();
     }
 }

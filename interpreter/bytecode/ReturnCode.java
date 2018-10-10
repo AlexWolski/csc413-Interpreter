@@ -11,5 +11,7 @@ public class ReturnCode extends ByteCode {
     }
 
     public void execute(VirtualMachine vm) {
+        vm.popFrame();
+        vm.setPc(vm.popReturnAddress());
     }
 }

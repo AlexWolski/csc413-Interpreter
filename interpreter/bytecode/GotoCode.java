@@ -10,14 +10,15 @@ public class GotoCode extends JumpByteCode {
         label = parameters[0];
     }
 
-    public void execute(VirtualMachine vm) {
-    }
-
     public String getLabel() {
         return label;
     }
 
     public void setAddress(int resolvedAddress) {
         address = resolvedAddress;
+    }
+
+    public void execute(VirtualMachine vm) {
+        vm.setPc(address);
     }
 }

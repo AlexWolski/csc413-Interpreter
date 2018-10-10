@@ -15,5 +15,6 @@ public class ArgsCode extends ByteCode {
     }
 
     public void execute(VirtualMachine vm) {
+        vm.newFrameAt(numArgs);
     }
 }

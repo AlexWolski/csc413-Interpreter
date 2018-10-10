@@ -14,7 +14,7 @@ public class Program {
 
     public Program() {
         program = new ArrayList<>();
-        addresses = new HashMap();
+        addresses = new HashMap<>();
     }
 
     public int getSize() {
@@ -26,10 +26,10 @@ public class Program {
     }
 
     public void addCode(ByteCode newByteCode) {
-        program.add(newByteCode);
-
         if (newByteCode instanceof LabelCode)
             addresses.put(((LabelCode) newByteCode).getLabel(), program.size());
+
+        program.add(newByteCode);
     }
 
     /**
