@@ -1,6 +1,9 @@
 package interpreter;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
 
 public class RunTimeStack {
@@ -93,8 +96,20 @@ public class RunTimeStack {
         framePointer.add(runStack.size() - offset);
     }
 
-    public int getFrameSize() {
-        return runStack.size();
+    public int getTopFrameSize() {
+        if(framePointer.isEmpty())
+            return -1;
+
+        return runStack.size() - framePointer.get(framePointer.size() - 1);
+    }
+
+    public Integer[] getTopFrame() {
+        if(getTopFrameSize() < 0)
+            return null;
+
+        Integer[] frame = Arrays.copyOf(runStack.toArray(), runStack.size(), Integer[].class);
+
+        return Arrays.copyOfRange(frame, framePointer.peek(), runStack.size());
     }
 
     public void popFrame() {

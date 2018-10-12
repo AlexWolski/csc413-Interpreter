@@ -6,10 +6,12 @@ public class CallCode extends JumpByteCode {
     private String label;
     private String cleanedLabel;
     private int address;
+    private Integer[] arguments;
 
     @Override
     public void init(String ... parameters) {
         label = parameters[0];
+        cleanedLabel = cleanLabel(label);
     }
 
     @Override
@@ -26,10 +28,20 @@ public class CallCode extends JumpByteCode {
     public void execute(VirtualMachine vm) {
         vm.pushReturnAddress(vm.getPc());
         vm.setPc(address);
+        arguments = vm.getTopFrame();
     }
 
     @Override
     public String toString() {
-        return ("CALL " + cleanedLabel + "   " + cleanedLabel + "(" + ")");
+        StringBuilder output = new StringBuilder("CALL " + cleanedLabel + "   " + cleanedLabel + "(");
+
+        for(int i = 0; i < arguments.length; i++) {
+            if(i != 0)
+                output.append(",");
+
+            output.append(arguments[i]);
+        }
+
+        return output.append(")").toString();
     }
 }

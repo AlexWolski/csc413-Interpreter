@@ -31,8 +31,8 @@ public class VirtualMachine {
                 currCode = program.getCode(pc);
 
                 if (isDumping) {
-                    //System.out.println(currCode.toString());
                     currCode.execute(this);
+                    System.out.println(currCode.toString());
                     runStack.dump();
                 }
                 else
@@ -87,8 +87,12 @@ public class VirtualMachine {
         runStack.newFrameAt(offset);
     }
 
-    public int getFrameSize() {
-        return runStack.getFrameSize();
+    public int getTopFrameSize() {
+        return runStack.getTopFrameSize();
+    }
+
+    public Integer[] getTopFrame() {
+        return runStack.getTopFrame();
     }
 
     public void popFrame() {

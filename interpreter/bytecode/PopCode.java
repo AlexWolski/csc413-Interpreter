@@ -18,8 +18,8 @@ public class PopCode extends ByteCode {
     public void execute(VirtualMachine vm) {
         int upperBound;
 
-        if(numToPop > vm.getFrameSize())
-            upperBound = vm.getFrameSize();
+        if(numToPop > vm.getTopFrameSize())
+            upperBound = vm.getTopFrameSize();
         else
             upperBound = numToPop;
 
