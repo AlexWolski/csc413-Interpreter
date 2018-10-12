@@ -19,7 +19,7 @@ public class VirtualMachine {
 
     void executeProgram() {
         isRunning = true;
-        isDumping = true;
+        isDumping = false;
         runStack = new RunTimeStack();
         returnAddrs = new Stack<>();
         pc = 0;
@@ -29,18 +29,16 @@ public class VirtualMachine {
         while(isRunning) {
             try {
                 currCode = program.getCode(pc);
+                currCode.execute(this);
 
                 if (isDumping) {
-                    currCode.execute(this);
                     System.out.println(currCode.toString());
                     runStack.dump();
                 }
-                else
-                    currCode.execute(this);
 
             } catch(Exception e) {
                 //Ignore all errors thrown by the runtime stack, don't stop the program
-                System.out.println("error");
+                System.out.println(e.getMessage());
             }
 
             pc++;

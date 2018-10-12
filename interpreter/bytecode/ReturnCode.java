@@ -4,17 +4,20 @@ import interpreter.VirtualMachine;
 
 public class ReturnCode extends ByteCode {
     private String label;
-    private String cleanedLabel;
+    private String cleanedLabel = null;
+    private int returnValue;
 
     @Override
     public void init(String ... parameters) {
-        if(parameters.length > 0)
+        if(parameters.length > 0) {
             label = parameters[0];
+            cleanedLabel = cleanLabel(label);
+        }
     }
 
     @Override
     public void execute(VirtualMachine vm) {
-        int returnValue = vm.pop();
+        returnValue = vm.pop();
         vm.popFrame();
         vm.push(returnValue);
         vm.setPc(vm.popReturnAddress());
@@ -22,12 +25,9 @@ public class ReturnCode extends ByteCode {
 
     @Override
     public String toString() {
-        String output = "RETURN " + cleanedLabel;
+        if(cleanedLabel == null)
+            return "RETURN";
 
-        if(true) {
-            output += ("  exit " + cleanedLabel + ":");
-        }
-
-        return output;
+        return "RETURN " + cleanedLabel + "  exit " + cleanedLabel + ": "+ returnValue;
     }
 }

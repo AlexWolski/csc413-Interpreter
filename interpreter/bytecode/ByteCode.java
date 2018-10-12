@@ -15,6 +15,22 @@ public abstract class ByteCode {
     }
 
     static String cleanLabel(String label) {
-        return label;
+        StringBuilder cleanedLabel = new StringBuilder();
+        char prevChar;
+        char currChar = '\0';
+
+        for(int i = 0; i < label.length(); i++) {
+            prevChar = currChar;
+            currChar = label.charAt(i);
+
+            if(i == label.length() - 1) {
+                if (currChar != '<' && currChar != '>')
+                    cleanedLabel.append(currChar);
+            } else if(prevChar != '<' && label.charAt(i + 1) != '>' &&
+                      currChar != '<' && currChar != '>')
+                cleanedLabel.append(currChar);
+        }
+
+        return cleanedLabel.toString();
     }
 }
