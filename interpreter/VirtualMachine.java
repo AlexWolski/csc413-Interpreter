@@ -1,5 +1,7 @@
 package interpreter;
 
+import interpreter.bytecode.ByteCode;
+
 import java.util.Stack;
 
 public class VirtualMachine {
@@ -9,6 +11,7 @@ public class VirtualMachine {
     private Program program;
     private int pc;
     private boolean isRunning;
+    private boolean isDumping;
 
     protected VirtualMachine(Program program) {
         this.program = program;
@@ -16,15 +19,25 @@ public class VirtualMachine {
 
     void executeProgram() {
         isRunning = true;
+        isDumping = true;
         runStack = new RunTimeStack();
         returnAddrs = new Stack<>();
         pc = 0;
 
+        ByteCode currCode;
+
         while(isRunning) {
             try {
-                program.getCode(pc).execute(this);
+                currCode = program.getCode(pc);
+                currCode.execute(this);
+
+                if (isDumping) {
+                    System.out.println(currCode.toString());
+                    runStack.dump();
+                }
             } catch(Exception e) {
                 //Ignore all errors thrown by the runtime stack, don't stop the program
+                System.out.println("test");
             }
 
             pc++;
@@ -33,6 +46,10 @@ public class VirtualMachine {
 
     public void stopProgram() {
         this.isRunning = false;
+    }
+
+    public void setDumping (boolean dumpCode) {
+        isDumping = dumpCode;
     }
 
     public int getPc() {
@@ -65,6 +82,10 @@ public class VirtualMachine {
 
     public void newFrameAt(int offset) {
         runStack.newFrameAt(offset);
+    }
+
+    public int getFrameSize() {
+        return runStack.getFrameSize();
     }
 
     public void popFrame() {

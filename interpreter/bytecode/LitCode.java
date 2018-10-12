@@ -6,6 +6,7 @@ public class LitCode extends ByteCode {
     private int value;
     private String variableName;
 
+    @Override
     public void init(String ... parameters) {
         try {
             value = ByteCode.toInt(parameters[0]);
@@ -17,7 +18,13 @@ public class LitCode extends ByteCode {
             variableName = parameters[1];
     }
 
+    @Override
     public void execute(VirtualMachine vm) {
         vm.push(value);
+    }
+
+    @Override
+    public String toString() {
+        return ("LIT " + value);
     }
 }

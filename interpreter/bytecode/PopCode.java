@@ -5,6 +5,7 @@ import interpreter.VirtualMachine;
 public class PopCode extends ByteCode {
     private int numToPop;
 
+    @Override
     public void init(String ... parameters) {
         try {
             numToPop = ByteCode.toInt(parameters[0]);
@@ -13,8 +14,22 @@ public class PopCode extends ByteCode {
         }
     }
 
+    @Override
     public void execute(VirtualMachine vm) {
-        for (int numPoppsed = 0; numPoppsed < numToPop; numPoppsed++)
+        int upperBound;
+
+        if(numToPop < vm.getFrameSize())
+            upperBound = vm.getFrameSize();
+        else
+            upperBound = numToPop;
+
+        for (int numPoppsed = 0; numPoppsed < upperBound; numPoppsed++)
             vm.pop();
+    }
+
+
+    @Override
+    public String toString() {
+        return ("POP " + numToPop);
     }
 }

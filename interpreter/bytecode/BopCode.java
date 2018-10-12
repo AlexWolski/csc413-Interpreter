@@ -10,6 +10,7 @@ public class BopCode extends ByteCode {
         OperatorTable.init();
     }
 
+    @Override
     public void init(String ... parameters) {
         try {
             Class operatorClass = Class.forName("interpreter.bytecode.operator." + OperatorTable.getClassName(parameters[0]));
@@ -20,9 +21,15 @@ public class BopCode extends ByteCode {
         }
     }
 
+    @Override
     public void execute(VirtualMachine vm) {
         int value2 = vm.pop();
 
         vm.push(operator.execute(vm.pop(), value2));
+    }
+
+    @Override
+    public String toString() {
+        return ("BOP " + operator);
     }
 }

@@ -5,6 +5,7 @@ import interpreter.VirtualMachine;
 public class ArgsCode extends ByteCode {
     private int numArgs;
 
+    @Override
     public void init(String ... parameters) {
         try {
             numArgs = ByteCode.toInt(parameters[0]);
@@ -14,7 +15,13 @@ public class ArgsCode extends ByteCode {
         }
     }
 
+    @Override
     public void execute(VirtualMachine vm) {
         vm.newFrameAt(numArgs);
+    }
+
+    @Override
+    public String toString() {
+        return ("\nARGS " + numArgs);
     }
 }

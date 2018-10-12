@@ -27,7 +27,36 @@ public class RunTimeStack {
     }
 
     public void dump() {
+        StringBuilder stackString = new StringBuilder();
 
+        for(int i = 0; i < framePointer.size(); i++) {
+
+            if(i != 0)
+                stackString.append(" ");
+
+            stackString.append("[");
+
+            if(i < framePointer.size() - 1) {
+                for (int j = framePointer.get(i); j < framePointer.get(i + 1); j++) {
+                    stackString.append(runStack.get(j));
+
+                    if(j != framePointer.get(i + 1) - 1)
+                        stackString.append(",");
+                }
+            }
+            else {
+                for (int j = framePointer.get(i); j < runStack.size(); j++) {
+                    stackString.append(runStack.get(j));
+
+                    if(j != runStack.size() - 1)
+                        stackString.append(",");
+                }
+            }
+
+            stackString.append("]");
+        }
+
+        System.out.println(stackString.toString());
     }
 
     public int peek() {
@@ -58,10 +87,14 @@ public class RunTimeStack {
     }
 
     public void newFrameAt(int offset) {
-        if(runStack.size() - offset + 1 < safeFramePeek("Can't add NEW FRAME"))
+        if(runStack.size() - offset < safeFramePeek("Can't add NEW FRAME"))
             throw new ArrayIndexOutOfBoundsException("Can't add NEW FRAME, the target location is out of bounds.");
 
         framePointer.add(runStack.size());
+    }
+
+    public int getFrameSize() {
+        return runStack.size();
     }
 
     public void popFrame() {
@@ -69,12 +102,9 @@ public class RunTimeStack {
             throw new ArrayIndexOutOfBoundsException("Can't POP FRAME, there are no more frames.");
 
         int oldFrame = framePointer.pop();
-        Integer returnValue = runStack.get(getLastStackIndex());
 
         while(runStack.size() > oldFrame)
             runStack.remove(getLastStackIndex());
-
-        runStack.add(returnValue);
     }
 
     public int store(int offset) {
