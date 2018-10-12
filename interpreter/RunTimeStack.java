@@ -90,7 +90,7 @@ public class RunTimeStack {
         if(runStack.size() - offset < safeFramePeek("Can't add NEW FRAME"))
             throw new ArrayIndexOutOfBoundsException("Can't add NEW FRAME, the target location is out of bounds.");
 
-        framePointer.add(runStack.size());
+        framePointer.add(runStack.size() - offset);
     }
 
     public int getFrameSize() {
@@ -126,7 +126,7 @@ public class RunTimeStack {
         if(index > runStack.size())
             throw new ArrayIndexOutOfBoundsException("Can't LOAD, the target index is outside of the stack.");
 
-        Integer value = runStack.get(index - 1);
+        Integer value = runStack.get(index);
         runStack.add(value);
 
         return value;

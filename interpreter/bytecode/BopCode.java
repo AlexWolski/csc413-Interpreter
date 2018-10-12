@@ -4,6 +4,7 @@ import interpreter.VirtualMachine;
 import interpreter.bytecode.operator.Operator;
 
 public class BopCode extends ByteCode {
+    private String operatorSymbol;
     private Operator operator;
 
     static {
@@ -13,7 +14,8 @@ public class BopCode extends ByteCode {
     @Override
     public void init(String ... parameters) {
         try {
-            Class operatorClass = Class.forName("interpreter.bytecode.operator." + OperatorTable.getClassName(parameters[0]));
+            operatorSymbol = parameters[0];
+            Class operatorClass = Class.forName("interpreter.bytecode.operator." + OperatorTable.getClassName(operatorSymbol));
             operator = (Operator) operatorClass.getDeclaredConstructor().newInstance();
         }
         catch (Exception e) {
@@ -30,6 +32,6 @@ public class BopCode extends ByteCode {
 
     @Override
     public String toString() {
-        return ("BOP " + operator);
+        return ("BOP " + operatorSymbol);
     }
 }

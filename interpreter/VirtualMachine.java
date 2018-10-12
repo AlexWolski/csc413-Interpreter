@@ -29,15 +29,18 @@ public class VirtualMachine {
         while(isRunning) {
             try {
                 currCode = program.getCode(pc);
-                currCode.execute(this);
 
                 if (isDumping) {
-                    System.out.println(currCode.toString());
+                    //System.out.println(currCode.toString());
+                    currCode.execute(this);
                     runStack.dump();
                 }
+                else
+                    currCode.execute(this);
+
             } catch(Exception e) {
                 //Ignore all errors thrown by the runtime stack, don't stop the program
-                System.out.println("test");
+                System.out.println("error");
             }
 
             pc++;
