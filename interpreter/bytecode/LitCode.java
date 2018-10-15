@@ -25,6 +25,11 @@ public class LitCode extends ByteCode {
 
     @Override
     public String toString() {
-        return ("LIT " + value);
+        String output = "LIT " + value;
+
+        if(variableName != null)
+            output = output + " " + variableName + "   int " + variableName;
+
+        return output;
     }
 }

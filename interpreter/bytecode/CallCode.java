@@ -33,15 +33,15 @@ public class CallCode extends JumpByteCode {
 
     @Override
     public String toString() {
-        StringBuilder output = new StringBuilder("CALL " + cleanedLabel + "   " + cleanedLabel + "(");
+        String output = "CALL " + cleanedLabel + "   " + cleanedLabel + "(";
 
         for(int i = 0; i < arguments.length; i++) {
             if(i != 0)
-                output.append(",");
+                output += ",";
 
-            output.append(arguments[i]);
+            output +=arguments[i];
         }
 
-        return output.append(")").toString();
+        return output + ")";
     }
 }

@@ -3,13 +3,14 @@ package interpreter;
 import interpreter.bytecode.ByteCode;
 import interpreter.bytecode.JumpByteCode;
 import interpreter.bytecode.LabelCode;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+//Stores the ByteCodes for the program
 public class Program {
+    //Holds all of the ByteCodes
     private ArrayList<ByteCode> program;
+    //Temporary HashMap for resolving addresses. The key is the Label and the value is the index that label ByteCode is in.
     private HashMap<String, Integer> addresses;
 
     public Program() {
@@ -32,14 +33,7 @@ public class Program {
         program.add(newByteCode);
     }
 
-    /**
-     * This function should go through the program and resolve all addresses.
-     * Currently all labels look like LABEL <<num>>>, these need to be converted into
-     * correct addresses so the VirtualMachine knows what to set the Program Counter(PC)
-     * HINT: make note what type of data-stucture bytecodes are stored in.
-     *
-     * @ param program Program object that holds a list of ByteCodes
-     */
+    //Resolve the addresses of any ByteCodes that holds a label. Get the index by giving the HashMap the label.
     public void resolveAddrs() {
         for(ByteCode currByteCode : program) {
             if(currByteCode instanceof JumpByteCode)

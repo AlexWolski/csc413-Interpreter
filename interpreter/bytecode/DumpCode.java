@@ -20,4 +20,18 @@ public class DumpCode extends ByteCode {
     public void execute(VirtualMachine vm) {
         vm.setDumping(dumpCode);
     }
+
+    @Override
+    public String toString() {
+        String output = "";
+
+        output += "DUMP ";
+
+        if(dumpCode)
+            output += "ON";
+        else
+            output += "OFF";
+
+        return output;
+    }
 }

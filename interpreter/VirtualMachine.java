@@ -1,15 +1,20 @@
 package interpreter;
 
 import interpreter.bytecode.ByteCode;
-
 import java.util.Stack;
 
+//Loops through the ByteCodes and execute the program
 public class VirtualMachine {
 
+    //runStack object to manage the program's memory
     private RunTimeStack runStack;
+    //List of return addresses for functions calls
     private Stack<Integer> returnAddrs;
+    //Program object to store all of the ByteCodes
     private Program program;
+    //Integer to loop through the ArrayList of ByteCodes
     private int pc;
+    //Booleans to control if the program is running and if the program is printing its status
     private boolean isRunning;
     private boolean isDumping;
 
@@ -26,6 +31,7 @@ public class VirtualMachine {
 
         ByteCode currCode;
 
+        //Keep looping and executing ByteCodes
         while(isRunning) {
             try {
                 currCode = program.getCode(pc);
@@ -37,13 +43,15 @@ public class VirtualMachine {
                 }
 
             } catch(Exception e) {
-                //Ignore all errors thrown by the runtime stack, don't stop the program
+                //If there is an error, print it to the console. But don't stop the program.
                 System.out.println(e.getMessage());
             }
 
             pc++;
         }
     }
+
+    /**Methods for VirtualMachine*/
 
     public void stopProgram() {
         this.isRunning = false;
@@ -60,6 +68,16 @@ public class VirtualMachine {
     public void setPc(int newPc) {
         pc = newPc;
     }
+
+    public void pushReturnAddress(int address) {
+        returnAddrs.push(address);
+    }
+
+    public int popReturnAddress() {
+        return returnAddrs.pop();
+    }
+
+    /**Methods to call other methods in the runStack*/
 
     public int peek() {
         return runStack.peek();
@@ -95,13 +113,5 @@ public class VirtualMachine {
 
     public void popFrame() {
         runStack.popFrame();
-    }
-
-    public void pushReturnAddress(int address) {
-        returnAddrs.push(address);
-    }
-
-    public int popReturnAddress() {
-       return returnAddrs.pop();
     }
 }

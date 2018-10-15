@@ -28,6 +28,6 @@ public class ReturnCode extends ByteCode {
         if(cleanedLabel == null)
             return "RETURN";
 
-        return "RETURN " + cleanedLabel + "  exit " + cleanedLabel + ": "+ returnValue;
+        return "RETURN " + cleanedLabel + "  exit " + cleanedLabel + ": " + ""+ returnValue;
     }
 }

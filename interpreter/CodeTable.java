@@ -1,13 +1,8 @@
-/**
- * Code table of byte codes in language X
- * @key name of a specific byte code
- * @value name of the class that the key belongs to.
- * returns Class name as a string.
- */
 package interpreter;
 
 import java.util.HashMap;
 
+//Takes a ByteCode and returns the associated class name
 public class CodeTable {
     
     private static HashMap<String,String> codeTable;
@@ -33,12 +28,6 @@ public class CodeTable {
         codeTable.put("DUMP", "DumpCode");
     }
 
-    /**
-     * A method to facilitate the retrieval of the names
-     * of a specific byte code class.
-     * @param key for byte code.
-     * @return class name of desired byte code.
-     */
     public static String getClassName(String key){
         return codeTable.get(key);
     }

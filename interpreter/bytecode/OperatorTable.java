@@ -2,6 +2,7 @@ package interpreter.bytecode;
 
 import java.util.HashMap;
 
+//Takes a math operator symbol and return the associated class name
 public class OperatorTable {
 
     private static HashMap<String,String> operatorTable;
@@ -24,12 +25,6 @@ public class OperatorTable {
         operatorTable.put("&", "andOp");
     }
 
-    /**
-     * A method to facilitate the retrieval of the names
-     * of a specific operator class.
-     * @param key for byte code.
-     * @return class name of desired byte code.
-     */
     public static String getClassName(String key){
         return operatorTable.get(key);
     }
