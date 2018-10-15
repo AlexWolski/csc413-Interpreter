@@ -22,41 +22,45 @@ class ByteCodeLoader extends Object {
     public Program loadCodes() {
         Program xProgram = new Program();
         ByteCode byteObject;
+        //Keep track of what line of code is being loaded
+        int count = 1;
 
         try {
             //While there are still more BytesCodes in the file, keep looking
             while (byteSource.ready()) {
                 //Read the line and split it into array on every space
-                String parsedString[] = byteSource.readLine().split(" ", -1);
-                //Look up the class name given the ByteCode and create a Java class for that ByteCode
-                Class byteClass = Class.forName("interpreter.bytecode." + CodeTable.getClassName(parsedString[0]));
+                String parsedString[] = byteSource.readLine().split("[ \t]", -1);
 
-                try {
-                    //Get the default constructor for the Java class and create a new instance
-                    byteObject = (ByteCode) byteClass.getDeclaredConstructor().newInstance();
+                if(!parsedString[0].equals("")) {
+                    try {
+                        //Look up the class name given the ByteCode and create a Java class for that ByteCode
+                        Class byteClass = Class.forName("interpreter.bytecode." + CodeTable.getClassName(parsedString[0]));
+                        //Get the default constructor for the Java class and create a new instance
+                        byteObject = (ByteCode) byteClass.getDeclaredConstructor().newInstance();
 
-                    //If there are parameters, make a new array excluding the ByteCode and use it to initialize the ByteCode
-                    if(parsedString.length != 1)
+                        //Make a new array excluding the ByteCode and use it to initialize the ByteCode
                         byteObject.init(Arrays.copyOfRange(parsedString, 1, parsedString.length));
-                  //If the ByteCode can't be found in the hash map, raise an exception
-                } catch (SecurityException e) {
-                    throw new SecurityException(parsedString[0] + " is not a valid bytecode.");
-                  //If there aren't enough parameters, raise an exception
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    throw new ArrayIndexOutOfBoundsException(parsedString[0] + " needs more than " + (parsedString.length - 1) + " arguments.");
-                }
+                        //If the ByteCode can't be found in the hash map, raise an exception
+                    } catch (ClassNotFoundException e) {
+                        throw new ClassNotFoundException(parsedString[0] + " is not a valid bytecode.");
+                        //If there aren't enough parameters, raise an exception
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        throw new ArrayIndexOutOfBoundsException(parsedString[0] + " needs more than " + (parsedString.length - 1) + " arguments.");
+                    }
 
-                //Add the ByteCode to the program ArrayList
-                xProgram.addCode(byteObject);
+                    //Add the ByteCode to the program ArrayList
+                    xProgram.addCode(byteObject);
+                    count++;
+                }
             }
 
-            //Close the BufferedReader and resolve
+            //Close the BufferedReader and resolve addresses
             byteSource.close();
             xProgram.resolveAddrs();
 
           //If there were any exceptions, halt the program
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Syntax Error on line " + count + ": " + e.getMessage());
             xProgram = new Program();
             xProgram.addCode(new HaltCode());
         }

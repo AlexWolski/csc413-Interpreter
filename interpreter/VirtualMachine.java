@@ -24,7 +24,7 @@ public class VirtualMachine {
 
     void executeProgram() {
         isRunning = true;
-        isDumping = false;
+        isDumping = true;
         runStack = new RunTimeStack();
         returnAddrs = new Stack<>();
         pc = 0;
@@ -34,6 +34,9 @@ public class VirtualMachine {
         //Keep looping and executing ByteCodes
         while(isRunning) {
             try {
+                if(pc == program.getSize())
+                    throw new RuntimeException("No HALT ByteCode at end of program");
+
                 currCode = program.getCode(pc);
                 currCode.execute(this);
 
@@ -43,8 +46,9 @@ public class VirtualMachine {
                 }
 
             } catch(Exception e) {
-                //If there is an error, print it to the console. But don't stop the program.
-                System.out.println(e.getMessage());
+                //If there is an error, print it to the console and exit the program
+                System.out.println("Runtime Error on line " + (pc + 1) + ": " + e.getMessage());
+                stopProgram();
             }
 
             pc++;

@@ -72,7 +72,7 @@ public class RunTimeStack {
 
     //Return the top value of the runStack
     public int peek() {
-        if(runStack.size() + 1 == peekFrame("Can't PEEK"))
+        if(runStack.size() + 1 >= peekFrame("Can't PEEK"))
             throw new ArrayIndexOutOfBoundsException("Can't PEEK, the frame is empty.");
 
         return runStack.get(getLastStackIndex());
@@ -80,7 +80,7 @@ public class RunTimeStack {
 
     //Return and remove the top value of the runStack
     public int pop() {
-        if(runStack.size() + 1 == peekFrame("Can't POP"))
+        if(runStack.size() + 1 >= peekFrame("Can't POP"))
             throw new ArrayIndexOutOfBoundsException("Can't POP, the frame is empty");
 
         Object value = runStack.get(getLastStackIndex());
