@@ -1,4 +1,4 @@
-# CSC 413 - Project Tw0
+# CSC 413 - Project Two
 
 ## Student Name  : Alex Wolski
 
