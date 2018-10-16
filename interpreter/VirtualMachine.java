@@ -24,7 +24,7 @@ public class VirtualMachine {
 
     void executeProgram() {
         isRunning = true;
-        isDumping = true;
+        isDumping = false;
         runStack = new RunTimeStack();
         returnAddrs = new Stack<>();
         pc = 0;

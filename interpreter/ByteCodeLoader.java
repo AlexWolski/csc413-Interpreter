@@ -29,7 +29,7 @@ class ByteCodeLoader extends Object {
             //While there are still more BytesCodes in the file, keep looking
             while (byteSource.ready()) {
                 //Read the line and split it into array on every space
-                String parsedString[] = byteSource.readLine().split("[ \t]", -1);
+                String parsedString[] = byteSource.readLine().split("[ \\t]+", -1);
 
                 if(!parsedString[0].equals("")) {
                     try {
